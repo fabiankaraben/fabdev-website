@@ -1,13 +1,15 @@
 ---
-title: 'Go'
-excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Praesent elementum facilisis leo vel fringilla est ullamcorper eget. At imperdiet dui accumsan sit amet nulla facilities morbi tempus.'
-coverImage: '/assets/go/Como-programar-en-Go.png'
-date: '2020-03-16T05:35:07.322Z'
+title: '¿Qué es?'
+excerpt: 'Serie de artículos donde veremos la definición de muchos términos interesantes en el mundo de la programación.'
+coverImage: '/assets/que-es/que-es.png'
+date: '2021-12-11T04:25:07.322Z'
 author:
   name: Fabián Karaben
   picture: '/assets/authors/fabian.png'
 ogImage:
-  url: '/assets/go/Como-programar-en-Go.png'
+  url: '/assets/que-es/que-es.png'
 ---
 
-En esta serie intentaré traducir lo máximo posible (a veces resumiendo, otras agregando cosas) el libro "How to Code in Go" (CC BY-NC-SA 4.0) del equipo de Gopher Guides para DigitalOcean.
+Serie de artículos donde veremos la definición de muchos términos interesantes en el mundo de la programación.
+
+1- [¿Qué son las Cookies HTTP?](/que-es/cookies-http)

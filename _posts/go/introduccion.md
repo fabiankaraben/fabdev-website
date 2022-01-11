@@ -18,7 +18,7 @@ Go es un lenguaje de programación que nace de la frustración de Google. Los de
 
 Por otra parte, Go es un lenguaje versátil ideal para ser utilizado en muchos proyectos diferentes, es particularmente bueno para desarrollar programas de redes distribuidas, e incluso se ha ganado la reputación de ser el "lenguaje de la nube", es decir, el lenguaje utilizado para desarrollar servicios cloud.
 
-![Cómo programar en Go.jpg](https://cdn.hashnode.com/res/hashnode/image/upload/v1639307256505/Zt-e7E8rG.jpeg)
+![Cómo programar en Go.jpg](/assets/go/cloud-go-love.jpg)
 
 Go se enfoca en ayudar al desarrollador moderno a hacer más con un potente conjunto de herramientas, evitando los debates acerca del formato, ya que esto forma parte de la especificación del propio lenguaje, como también logrando que los despliegues sean más sencillos compilando todo en un solo binario ejecutable.
 
