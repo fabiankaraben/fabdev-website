@@ -28,12 +28,12 @@ const Alert = ({ preview }: Props) => {
             </>
           ) : (
             <>
-              The source code for this blog is{' '}
+              El código fuente de este blog está{' '}
               <a
                 href={`https://github.com/fabiankaraben/fabdev-website`}
                 className="underline hover:text-blue-600 duration-200 transition-colors"
               >
-                available on GitHub
+                disponible en GitHub
               </a>
               .
             </>
