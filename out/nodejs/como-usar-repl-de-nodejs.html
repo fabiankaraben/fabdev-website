@@ -1,0 +1,234 @@
+<!DOCTYPE html><html lang="es"><head><meta name="viewport" content="width=device-width"/><meta charSet="utf-8"/><link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png"/><link rel="manifest" href="/favicon/site.webmanifest"/><link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#000000"/><link rel="shortcut icon" href="/favicon/favicon.ico"/><meta name="msapplication-TileColor" content="#000000"/><meta name="msapplication-config" content="/favicon/browserconfig.xml"/><meta name="theme-color" content="#000"/><link rel="alternate" type="application/rss+xml" href="/feed.xml"/><meta name="description" content="¡Hola! Soy Fabián, desarrollador de software en Go y Flutter. Este blog es para compartir lo que aprendo cada día.."/><meta property="og:image" content="https://og-image.vercel.app/Next.js%20Blog%20Starter%20Example.png?theme=light&amp;md=1&amp;fontSize=100px&amp;images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fnextjs-black-logo.svg"/><title>Cómo usar REPL de Node.js | FabDev</title><meta property="og:image" content="/assets/nodejs/como-usar-REPL.png"/><meta name="next-head-count" content="16"/><link rel="preload" href="/_next/static/css/9be9e5c29c992595.css" as="style"/><link rel="stylesheet" href="/_next/static/css/9be9e5c29c992595.css" data-n-g=""/><link rel="preload" href="/_next/static/css/e1f6961df2961232.css" as="style"/><link rel="stylesheet" href="/_next/static/css/e1f6961df2961232.css" data-n-p=""/><noscript data-n-css=""></noscript><script defer="" nomodule="" src="/_next/static/chunks/polyfills-5cd94c89d3acac5f.js"></script><script src="/_next/static/chunks/webpack-514908bffb652963.js" defer=""></script><script src="/_next/static/chunks/framework-91d7f78b5b4003c8.js" defer=""></script><script src="/_next/static/chunks/main-e47bb435dabe4202.js" defer=""></script><script src="/_next/static/chunks/pages/_app-c99dbd9fb9deefcc.js" defer=""></script><script src="/_next/static/chunks/202-747faafb2b860ef1.js" defer=""></script><script src="/_next/static/chunks/pages/%5B...slug%5D-3705ced336c866a2.js" defer=""></script><script src="/_next/static/qoRXfxbnXzrcT-xzb1EWP/_buildManifest.js" defer=""></script><script src="/_next/static/qoRXfxbnXzrcT-xzb1EWP/_ssgManifest.js" defer=""></script><script src="/_next/static/qoRXfxbnXzrcT-xzb1EWP/_middlewareManifest.js" defer=""></script></head><body><div id="__next" data-reactroot=""><div class="min-h-screen"><div class="border-b bg-neutral-50 border-neutral-200"><div class="container mx-auto px-5"><div class="py-2 text-center text-sm">El código fuente de este blog está<!-- --> <a href="https://github.com/fabiankaraben/fabdev-website" class="underline hover:text-blue-600 duration-200 transition-colors">disponible en GitHub</a>.</div></div></div><main><div class="container mx-auto px-5"><h2 class="text-2xl md:text-4xl font-bold tracking-tight md:tracking-tighter leading-tight mb-20 mt-8"><a class="hover:underline" href="/">FabDev</a></h2><article class="mb-32"><h1 class="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-tight md:leading-none mb-12 text-center md:text-left">Cómo usar REPL de Node.js</h1><div class="hidden md:block md:mb-12"><div class="flex items-center"><img src="/assets/authors/fabian.png" class="w-12 h-12 rounded-full mr-4" alt="Fabián Karaben"/><div class="text-xl font-bold">Fabián Karaben</div></div></div><div class="mb-8 md:mb-16 sm:mx-0"><div class="sm:mx-0"><img src="/assets/nodejs/como-usar-REPL.png" alt="Cover Image for Cómo usar REPL de Node.js" class="shadow-sm"/></div></div><div class="max-w-4xl mx-auto"><div class="block md:hidden mb-6"><div class="flex items-center"><img src="/assets/authors/fabian.png" class="w-12 h-12 rounded-full mr-4" alt="Fabián Karaben"/><div class="text-xl font-bold">Fabián Karaben</div></div></div><div class="mb-6 text-lg"><time dateTime="2021-12-16T05:35:07.322Z">December	16, 2021</time></div></div><div class="max-w-4xl mx-auto"><div class="markdown-styles_markdown__h_8de"><p>Read-Eval-Print-Loop (REPL) de Node.js es un shell interactivo que procesa las expresiones de Node.js. El shell lee (<strong>Read</strong>) el código JavaScript que ingresa el usuario, evalúa (<strong>Eval</strong>) el resultado interpretando la línea de código, imprime (<strong>Print</strong>) el resultado al usuario y se repite (<strong>Loop</strong>) hasta que el usuario indique que se debe salir del bucle.</p>
+<p>REPL se incluye con cada instalación de Node.js y te permite probar y explorar rápidamente el código JavaScript dentro del entorno de Node sin tener que crear un archivo.</p>
+<h2>Requisitos previos</h2>
+<p>Para completar este tutorial, necesitarás:</p>
+<ul>
+<li>Node.js instalado en tu máquina de desarrollo. Este tutorial usa la versión 10.16.0. Para instalar esto en macOS o Ubuntu, sigue los pasos en <a href="https://www.digitalocean.com/community/tutorials/how-to-install-node-js-and-create-a-local-development-environment-on-macos">Cómo instalar Node.js y crear un entorno de desarrollo local en macOS</a> o la sección "Instalación mediante un PPA" de <a href="https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-18-04">Cómo instalar Node.js en Ubuntu</a> .</li>
+<li>Un conocimiento básico de JavaScript, que puedes encontrar aquí: <a href="https://www.digitalocean.com/community/tutorial_series/how-to-code-in-javascript">Cómo codificar en JavaScript</a>.</li>
+</ul>
+<h2>Paso 1 - Iniciar y detener el REPL</h2>
+<p>Si tienes <code>node</code> instalado, también tienes el REPL de Node.js. Para iniciarlo, simplemente ingresa <code>node</code> en su shell de línea de comandos:</p>
+<pre><code class="language-bash">node
+</code></pre>
+<p>Esto da como resultado el mensaje REPL:</p>
+<pre><code class="language-bash">>
+</code></pre>
+<p>El símbolo <code>></code> te permite saber que puedes ingresar código JavaScript para ser evaluado inmediatamente.</p>
+<p>Por ejemplo, intenta agregar dos números en el REPL escribiendo esto:</p>
+<pre><code class="language-bash">> 2 + 2
+</code></pre>
+<p>Cuando presiones <em>ENTER</em>, REPL evaluará la expresión y devolverá:</p>
+<pre><code class="language-bash">4
+</code></pre>
+<p>Para salir de REPL, puedes escribir <code>.exit</code>, o presionar <em>CTRL + D</em> una vez, o presionar <em>CTRL + C</em> dos veces.</p>
+<p>Sabiendo cómo ingresar y salir de REPL, echemos un vistazo a cómo puedes usar REPL para ejecutar código JavaScript simple.</p>
+<h2>Paso 2 - Ejecución de código en REPL de Node.js</h2>
+<p>REPL es una forma rápida de probar el código JavaScript sin tener que crear un archivo. Casi todas las expresiones válidas de JavaScript o Node.js se pueden ejecutar en REPL.</p>
+<p>En el paso anterior ya probaste la suma de dos números, ahora intentemos la división. Para hacerlo, inicia un nuevo REPL:</p>
+<pre><code class="language-bash">node
+</code></pre>
+<p>Y escribe:</p>
+<pre><code class="language-bash">> 10 / 5
+</code></pre>
+<p>Presione <em>ENTER</em>, y la salida será <code>2</code>, como se esperaba:</p>
+<pre><code class="language-bash">2
+</code></pre>
+<p>El REPL también puede procesar operaciones en cadenas. Concatena las siguientes cadenas en tu REPL escribiendo:</p>
+<pre><code class="language-bash">> "Hello " + "World"
+</code></pre>
+<p>Nuevamente, presiona ENTRAR y se evaluará la expresión de cadena:</p>
+<pre><code class="language-bash">'Hello World'
+</code></pre>
+<blockquote>
+<p><strong>Nota</strong>: Es posible que hayas notado que la salida utiliza comillas simples en lugar de comillas dobles. En JavaScript, las comillas utilizadas para una cadena no afectan su valor.</p>
+</blockquote>
+<h3>Llamando funciones</h3>
+<p>Al escribir código Node.js, es común imprimir mensajes a través del método global <code>console.log</code> o una función similar. Escribe lo siguiente:</p>
+<pre><code class="language-bash">> console.log("Hi")
+</code></pre>
+<p>Al presionar <em>ENTER</em> se obtiene el siguiente resultado:</p>
+<pre><code class="language-bash">Hi
+undefined
+</code></pre>
+<p>El primer resultado es la salida de <code>console.log</code>, que imprime un mensaje en el stream de salida estándar (la pantalla). Debido a que <code>console.log</code> imprime una cadena en lugar de devolver una cadena, el mensaje se ve sin comillas. El <code>undefined</code> es el valor de retorno de la función.</p>
+<h3>Creando variables</h3>
+<p>Rara vez trabajas con literales en JavaScript. La creación de una variable en REPL funciona de la misma manera que cuando se trabaja con archivos <code>.js</code>. Escribe lo siguiente:</p>
+<pre><code class="language-bash">> let age = 30
+</code></pre>
+<p>Presionar <em>ENTER</em>, y esto da como resultado:</p>
+<pre><code class="language-bash">undefined
+</code></pre>
+<p>Como antes, con <code>console.log</code>, el valor de retorno de este comando es <code>undefined</code> . La variable <code>age</code> estará disponible hasta que salgas de la sesión REPL. Por ejemplo, puedes multiplicar la edad por dos. Escribe lo siguiente en el indicador y presiona <em>ENTER</em>:</p>
+<pre><code class="language-bash">> age * 2
+</code></pre>
+<p>El resultado es:</p>
+<pre><code class="language-bash">60
+</code></pre>
+<p>Debido a que REPL devuelve valores, no es necesario utilizar <code>console.log</code> o funciones similares para ver el resultado en la pantalla. De forma predeterminada, cualquier valor devuelto aparecerá en la pantalla.</p>
+<h3>Bloques multilínea</h3>
+<p>REPL también admite bloques de código de varias líneas. Por ejemplo, puedes crear una función que agregue <code>3</code> a un número dado. Inicia la función escribiendo lo siguiente:</p>
+<pre><code class="language-bash">> const add3 = (num) => {
+</code></pre>
+<p>Luego, presionando <em>ENTER</em> cambiará el mensaje a:</p>
+<pre><code class="language-bash">...
+</code></pre>
+<p>REPL notó un corchete abierto y, por lo tanto, asume que estás escribiendo más de una línea de código, y que eso debe sangrarse. Para facilitar la lectura, REPL agrega 3 puntos y un espacio en la siguiente línea, por lo que el siguiente código parece tener sangría.</p>
+<p>Ingresa la segunda y tercera línea de la función, una a la vez, presionando ENTER después de cada una:</p>
+<pre><code class="language-bash">... return num + 3;
+... }
+</code></pre>
+<p>Si presionas <em>ENTER</em> después del corchete de cierre, se mostrará <code>undefined</code>, que es el "valor de retorno" de la función asignada a una variable. El indicador <code>...</code> desaparece y regresa el indicador <code>></code>:</p>
+<pre><code class="language-bash">undefined
+>
+</code></pre>
+<p>Ahora, llama a <code>add3()</code> especificando un valor:</p>
+<pre><code class="language-bash">> add3(10)
+
+</code></pre>
+<p>Como se esperaba, el resultado es:</p>
+<pre><code class="language-bash">13
+</code></pre>
+<p>Puedes utilizar REPL para probar fragmentos de código JavaScript antes de incluirlos en tus programas. REPL también incluye algunos atajos útiles para facilitar ese proceso.</p>
+<h2>Paso 3 - Dominar los atajos de REPL</h2>
+<p>REPL proporciona atajos para reducir el tiempo de codificación cuando sea posible. Mantiene un historial de todos los comandos ingresados ​​y nos permite recorrerlos y repetir un comando si es necesario.</p>
+<p>Por ejemplo, ingresa la siguiente cadena:</p>
+<pre><code class="language-bash">"The answer to life the universe and everything is 32"
+</code></pre>
+<p>Esto resulta en:</p>
+<pre><code class="language-bash">'The answer to life the universe and everything is 32'
+</code></pre>
+<p>Si queremos editar la cadena y cambiar el <code>"32"</code> a <code>"42"</code>, en el indicador, usa la tecla de flecha <em>ARRIBA</em> para volver al comando anterior:</p>
+<pre><code class="language-bash">> "The answer to life the universe and everything is 32"
+</code></pre>
+<p>Mueve el cursor hacia la izquierda, elimina el <code>3</code>, ingresa un <code>4</code> y presione <em>ENTER</em> nuevamente:</p>
+<pre><code class="language-bash">'The answer to life the universe and everything is 42'
+</code></pre>
+<p>Continúa presionando la tecla de flecha <em>ARRIBA</em> y retrocederás más a través de tu historial hasta el primer comando utilizado en la sesión REPL actual. Por el contrario, presionar <em>ABAJO</em> iterarás hacia los comandos más recientes en el historial.</p>
+<p>Cuando hayas terminado de maniobrar a través de tu historial de comandos, presiona <em>ABAJO</em> repetidamente hasta que hayas agotado tu historial de comandos recientes.</p>
+<p>Para obtener rápidamente el último valor evaluado, utiliza el carácter de subrayado. Escribe <code>_</code> y presiona <em>ENTER</em>:</p>
+<pre><code class="language-bash">> _
+</code></pre>
+<p>La cadena de texto ingresada anteriormente aparecerá nuevamente:</p>
+<pre><code class="language-bash">'The answer to life the universe and everything is 42'
+</code></pre>
+<p>REPL también tiene un autocompletado para funciones, variables y palabras clave. Si deseas encontrar la raíz cuadrada de un número usando la función <code>Math.sqrt</code>, ingresa las primeras letras, así:</p>
+<pre><code class="language-bash">> Math.sq
+</code></pre>
+<p>Luego presione la tecla <em>TAB</em> y REPL completará automáticamente la función:</p>
+<pre><code class="language-bash">> Math.sqrt
+</code></pre>
+<p>Cuando hay varias posibilidades para autocompletar, se te mostrarán todas las opciones disponibles. Por ejemplo, ingresa solo:</p>
+<pre><code class="language-bash">> Math.
+</code></pre>
+<p>Y presione <em>TAB</em> dos veces. Verás todos los posibles autocompletados:</p>
+<pre><code class="language-bash">> Math.
+Math.__defineGetter__      Math.__defineSetter__      Math.__lookupGetter__
+Math.__lookupSetter__      Math.__proto__             Math.constructor
+Math.hasOwnProperty        Math.isPrototypeOf         Math.propertyIsEnumerable
+Math.toLocaleString        Math.toString              Math.valueOf
+
+Math.E                     Math.LN10                  Math.LN2
+Math.LOG10E                Math.LOG2E                 Math.PI
+Math.SQRT1_2               Math.SQRT2                 Math.abs
+Math.acos                  Math.acosh                 Math.asin
+Math.asinh                 Math.atan                  Math.atan2
+Math.atanh                 Math.cbrt                  Math.ceil
+Math.clz32                 Math.cos                   Math.cosh
+Math.exp                   Math.expm1                 Math.floor
+Math.fround                Math.hypot                 Math.imul
+Math.log                   Math.log10                 Math.log1p
+Math.log2                  Math.max                   Math.min
+Math.pow                   Math.random                Math.round
+Math.sign                  Math.sin                   Math.sinh
+Math.sqrt                  Math.tan                   Math.tanh
+Math.trunc
+</code></pre>
+<p>Presione <em>CTRL + C</em> para ir a una nueva línea en el indicador REPL sin ejecutar lo que está en la línea actual.</p>
+<p>Conocer los atajos de REPL te hará más eficiente al utilizarlo. Sin embargo, hay otra cosa que REPL proporciona para aumentar la productividad: los comandos REPL.</p>
+<h2>Paso 4 - Uso de comandos REPL</h2>
+<p>REPL tiene palabras clave específicas para ayudar a controlar su comportamiento. Cada comando comienza con un punto.</p>
+<h3>.help</h3>
+<p>Para enumerar todos los comandos disponibles, utiliza el comando <code>.help</code>:</p>
+<pre><code class="language-bash">> .help
+</code></pre>
+<p>No hay muchos, pero son útiles para hacer cosas en REPL:</p>
+<pre><code class="language-bash">.break    Sometimes you get stuck, this gets you out
+.clear    Alias for .break
+.editor   Enter editor mode
+.exit     Exit the REPL
+.help     Print this help message
+.load     Load JS from a file into the REPL session
+.save     Save all evaluated commands in this REPL session to a file
+
+Press Ctrl+C to abort current expression, Ctrl+D to exit the REPL
+</code></pre>
+<p>Si alguna vez olvidas un comando, siempre puedes consultar <code>.help</code> para listarlos y ver qué hace cada uno.</p>
+<h3>.break/.clear</h3>
+<p>Con <code>.break</code> o <code>.clear</code>, es fácil salir de una expresión de varias líneas. Por ejemplo, comienza un ciclo <code>for</code> de la siguiente manera:</p>
+<pre><code class="language-bash">> for (let i = 0; i &#x3C; 100000000; i++) {
+</code></pre>
+<p>Para salir directamente, en lugar de ingresar la siguiente línea, usa el comando <code>.break</code> o <code>.clear</code>:</p>
+<pre><code class="language-bash">... .break
+</code></pre>
+<p>Verás un nuevo símbolo de mensaje de REPL:</p>
+<pre><code class="language-bash">>
+</code></pre>
+<p>REPL pasará a una nueva línea sin ejecutar ningún código, similar a presionar <em>CTRL + C</em>.</p>
+<h3>.save and .load</h3>
+<p>El comando <code>.save</code> almacena en un archivo todo el código que ejecutaste desde el inició de la sesión actual de REPL. El comando <code>.load</code> ejecuta todo el código JavaScript desde un archivo dentro de REPL.</p>
+<p>Sal de la sesión usando el comando <code>.exit</code> o con el atajo <em>CTRL + D</em>. A continuación inicia un nuevo REPL con <code>node</code>. Ahora solo se guardará el código que estás a punto de escribir.</p>
+<p>Crea un array con frutas:</p>
+<pre><code class="language-bash">> fruits = ['banana', 'apple', 'mango']
+</code></pre>
+<p>En la siguiente línea, REPL mostrará:</p>
+<pre><code class="language-bash">[ 'banana', 'apple', 'mango' ]
+</code></pre>
+<p>Guarda esta variable en un nuevo archivo, <code>fruit.js</code>:</p>
+<pre><code class="language-bash">> .save fruits.js
+</code></pre>
+<p>Verás un mensaje de confirmación:</p>
+<pre><code class="language-bash">Session saved to: fruits.js
+</code></pre>
+<p>El archivo se guarda en el mismo directorio donde se abrió REPL.</p>
+<p>Sal de la sesión e inicia un nuevo REPL con <code>node</code>. Cuando se te solicite, carga el archivo <code>fruit.js</code> ingresando:</p>
+<pre><code class="language-bash">> .load fruits.js
+</code></pre>
+<p>Esto resulta en:</p>
+<pre><code class="language-bash">fruits = ['banana', 'apple', 'mango']
+[ 'banana', 'apple', 'mango' ]
+</code></pre>
+<p>El comando <code>.load</code> lee cada línea de código y lo ejecuta, como se esperaba de un intérprete de JavaScript. Ahora puedes usar la variable <code>fruits</code> como si hubiera estado disponible en la sesión actual todo el tiempo.</p>
+<p>Escribe el siguiente comando y presione <em>ENTRAR</em>:</p>
+<pre><code class="language-bash">> fruits[1]
+</code></pre>
+<p>REPL dará como resultado:</p>
+<pre><code class="language-bash">'apple'
+</code></pre>
+<p>Puedes cargar cualquier archivo JavaScript con el comando <code>.load</code>, no solo los elementos que guardaste previamente desde REPL.</p>
+<p>Hagamos una demostración rápida abriendo tu editor de código preferido o nano, un editor de línea de comandos, y creemos un nuevo archivo llamado <code>peanuts.js</code>:</p>
+<pre><code class="language-bash">nano peanuts.js
+</code></pre>
+<p>Ahora que el archivo está abierto, escribe lo siguiente:</p>
+<pre><code class="language-bash">console.log('I love peanuts!');
+</code></pre>
+<p>Guarda y sal de nano presionando <em>CTRL + X</em>.</p>
+<p>En el mismo directorio donde guardaste <code>peanuts.js</code>, inicia una sesión de REPL con el comando <code>node</code>. Carga <code>peanuts.js</code> en su sesión:</p>
+<pre><code class="language-bash">> .load peanuts.js
+</code></pre>
+<p>El comando <code>.load</code> ejecutará la declaración <code>console.log</code> y mostrará el siguiente resultado:</p>
+<pre><code class="language-bash">console.log('I love peanuts!');
+
+I love peanuts!
+undefined
+>
+</code></pre>
+<p>Cuando el uso de REPL es más extenso de lo esperado, o si crees que tienes un fragmento de código interesante que vale la pena compartir o explorar con más profundidad, puedes usar los comandos <code>.save</code> y <code>.load</code> para hacer posibles ambos objetivos.</p>
+<h2>Conclusión</h2>
+<p>REPL es un entorno interactivo que te permite ejecutar código JavaScript sin tener que escribirlo primero en un archivo.</p>
+</div></div></article></div></main></div><footer class="bg-neutral-50 border-t border-neutral-200"><div class="container mx-auto px-5"><div class="py-28 flex flex-col lg:flex-row items-center"><h3 class="text-4xl lg:text-[2.5rem] font-bold tracking-tighter leading-tight text-center lg:text-left mb-10 lg:mb-0 lg:pr-4 lg:w-1/5">FabDev</h3><div class="flex flex-col lg:flex-row justify-center items-center lg:pl-4 lg:w-4/5"><a href="https://backend-verse.com" class="mx-3 bg-black hover:bg-white hover:text-black border border-black text-white font-bold py-3 px-12 lg:px-8 duration-200 transition-colors mb-6 lg:mb-0">Backend-Verse</a><a href="https://github.com/fabiankaraben" class="mx-3 font-bold hover:underline">GitHub</a><a href="https://www.linkedin.com/in/fabiankaraben/" class="mx-3 font-bold hover:underline">LinkedIn</a><a href="https://www.youtube.com/channel/UCBu3Gofz6KehltM4jfmr-qA" class="mx-3 font-bold hover:underline">YouTube</a><a href="https://twitter.com/fab_k_dev" class="mx-3 font-bold hover:underline">Twitter</a><a href="https://www.instagram.com/fab.k.dev/" class="mx-3 font-bold hover:underline">Instagram</a></div></div></div></footer></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"post":{"title":"Cómo usar REPL de Node.js","date":"2021-12-16T05:35:07.322Z","slug":"nodejs/como-usar-repl-de-nodejs","author":{"name":"Fabián Karaben","picture":"/assets/authors/fabian.png"},"content":"\u003cp\u003eRead-Eval-Print-Loop (REPL) de Node.js es un shell interactivo que procesa las expresiones de Node.js. El shell lee (\u003cstrong\u003eRead\u003c/strong\u003e) el código JavaScript que ingresa el usuario, evalúa (\u003cstrong\u003eEval\u003c/strong\u003e) el resultado interpretando la línea de código, imprime (\u003cstrong\u003ePrint\u003c/strong\u003e) el resultado al usuario y se repite (\u003cstrong\u003eLoop\u003c/strong\u003e) hasta que el usuario indique que se debe salir del bucle.\u003c/p\u003e\n\u003cp\u003eREPL se incluye con cada instalación de Node.js y te permite probar y explorar rápidamente el código JavaScript dentro del entorno de Node sin tener que crear un archivo.\u003c/p\u003e\n\u003ch2\u003eRequisitos previos\u003c/h2\u003e\n\u003cp\u003ePara completar este tutorial, necesitarás:\u003c/p\u003e\n\u003cul\u003e\n\u003cli\u003eNode.js instalado en tu máquina de desarrollo. Este tutorial usa la versión 10.16.0. Para instalar esto en macOS o Ubuntu, sigue los pasos en \u003ca href=\"https://www.digitalocean.com/community/tutorials/how-to-install-node-js-and-create-a-local-development-environment-on-macos\"\u003eCómo instalar Node.js y crear un entorno de desarrollo local en macOS\u003c/a\u003e o la sección \"Instalación mediante un PPA\" de \u003ca href=\"https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-18-04\"\u003eCómo instalar Node.js en Ubuntu\u003c/a\u003e .\u003c/li\u003e\n\u003cli\u003eUn conocimiento básico de JavaScript, que puedes encontrar aquí: \u003ca href=\"https://www.digitalocean.com/community/tutorial_series/how-to-code-in-javascript\"\u003eCómo codificar en JavaScript\u003c/a\u003e.\u003c/li\u003e\n\u003c/ul\u003e\n\u003ch2\u003ePaso 1 - Iniciar y detener el REPL\u003c/h2\u003e\n\u003cp\u003eSi tienes \u003ccode\u003enode\u003c/code\u003e instalado, también tienes el REPL de Node.js. Para iniciarlo, simplemente ingresa \u003ccode\u003enode\u003c/code\u003e en su shell de línea de comandos:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003enode\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eEsto da como resultado el mensaje REPL:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e\u003e\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eEl símbolo \u003ccode\u003e\u003e\u003c/code\u003e te permite saber que puedes ingresar código JavaScript para ser evaluado inmediatamente.\u003c/p\u003e\n\u003cp\u003ePor ejemplo, intenta agregar dos números en el REPL escribiendo esto:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e\u003e 2 + 2\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eCuando presiones \u003cem\u003eENTER\u003c/em\u003e, REPL evaluará la expresión y devolverá:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e4\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003ePara salir de REPL, puedes escribir \u003ccode\u003e.exit\u003c/code\u003e, o presionar \u003cem\u003eCTRL + D\u003c/em\u003e una vez, o presionar \u003cem\u003eCTRL + C\u003c/em\u003e dos veces.\u003c/p\u003e\n\u003cp\u003eSabiendo cómo ingresar y salir de REPL, echemos un vistazo a cómo puedes usar REPL para ejecutar código JavaScript simple.\u003c/p\u003e\n\u003ch2\u003ePaso 2 - Ejecución de código en REPL de Node.js\u003c/h2\u003e\n\u003cp\u003eREPL es una forma rápida de probar el código JavaScript sin tener que crear un archivo. Casi todas las expresiones válidas de JavaScript o Node.js se pueden ejecutar en REPL.\u003c/p\u003e\n\u003cp\u003eEn el paso anterior ya probaste la suma de dos números, ahora intentemos la división. Para hacerlo, inicia un nuevo REPL:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003enode\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eY escribe:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e\u003e 10 / 5\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003ePresione \u003cem\u003eENTER\u003c/em\u003e, y la salida será \u003ccode\u003e2\u003c/code\u003e, como se esperaba:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e2\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eEl REPL también puede procesar operaciones en cadenas. Concatena las siguientes cadenas en tu REPL escribiendo:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e\u003e \"Hello \" + \"World\"\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eNuevamente, presiona ENTRAR y se evaluará la expresión de cadena:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e'Hello World'\n\u003c/code\u003e\u003c/pre\u003e\n\u003cblockquote\u003e\n\u003cp\u003e\u003cstrong\u003eNota\u003c/strong\u003e: Es posible que hayas notado que la salida utiliza comillas simples en lugar de comillas dobles. En JavaScript, las comillas utilizadas para una cadena no afectan su valor.\u003c/p\u003e\n\u003c/blockquote\u003e\n\u003ch3\u003eLlamando funciones\u003c/h3\u003e\n\u003cp\u003eAl escribir código Node.js, es común imprimir mensajes a través del método global \u003ccode\u003econsole.log\u003c/code\u003e o una función similar. Escribe lo siguiente:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e\u003e console.log(\"Hi\")\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eAl presionar \u003cem\u003eENTER\u003c/em\u003e se obtiene el siguiente resultado:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003eHi\nundefined\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eEl primer resultado es la salida de \u003ccode\u003econsole.log\u003c/code\u003e, que imprime un mensaje en el stream de salida estándar (la pantalla). Debido a que \u003ccode\u003econsole.log\u003c/code\u003e imprime una cadena en lugar de devolver una cadena, el mensaje se ve sin comillas. El \u003ccode\u003eundefined\u003c/code\u003e es el valor de retorno de la función.\u003c/p\u003e\n\u003ch3\u003eCreando variables\u003c/h3\u003e\n\u003cp\u003eRara vez trabajas con literales en JavaScript. La creación de una variable en REPL funciona de la misma manera que cuando se trabaja con archivos \u003ccode\u003e.js\u003c/code\u003e. Escribe lo siguiente:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e\u003e let age = 30\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003ePresionar \u003cem\u003eENTER\u003c/em\u003e, y esto da como resultado:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003eundefined\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eComo antes, con \u003ccode\u003econsole.log\u003c/code\u003e, el valor de retorno de este comando es \u003ccode\u003eundefined\u003c/code\u003e . La variable \u003ccode\u003eage\u003c/code\u003e estará disponible hasta que salgas de la sesión REPL. Por ejemplo, puedes multiplicar la edad por dos. Escribe lo siguiente en el indicador y presiona \u003cem\u003eENTER\u003c/em\u003e:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e\u003e age * 2\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eEl resultado es:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e60\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eDebido a que REPL devuelve valores, no es necesario utilizar \u003ccode\u003econsole.log\u003c/code\u003e o funciones similares para ver el resultado en la pantalla. De forma predeterminada, cualquier valor devuelto aparecerá en la pantalla.\u003c/p\u003e\n\u003ch3\u003eBloques multilínea\u003c/h3\u003e\n\u003cp\u003eREPL también admite bloques de código de varias líneas. Por ejemplo, puedes crear una función que agregue \u003ccode\u003e3\u003c/code\u003e a un número dado. Inicia la función escribiendo lo siguiente:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e\u003e const add3 = (num) =\u003e {\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eLuego, presionando \u003cem\u003eENTER\u003c/em\u003e cambiará el mensaje a:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e...\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eREPL notó un corchete abierto y, por lo tanto, asume que estás escribiendo más de una línea de código, y que eso debe sangrarse. Para facilitar la lectura, REPL agrega 3 puntos y un espacio en la siguiente línea, por lo que el siguiente código parece tener sangría.\u003c/p\u003e\n\u003cp\u003eIngresa la segunda y tercera línea de la función, una a la vez, presionando ENTER después de cada una:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e... return num + 3;\n... }\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eSi presionas \u003cem\u003eENTER\u003c/em\u003e después del corchete de cierre, se mostrará \u003ccode\u003eundefined\u003c/code\u003e, que es el \"valor de retorno\" de la función asignada a una variable. El indicador \u003ccode\u003e...\u003c/code\u003e desaparece y regresa el indicador \u003ccode\u003e\u003e\u003c/code\u003e:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003eundefined\n\u003e\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eAhora, llama a \u003ccode\u003eadd3()\u003c/code\u003e especificando un valor:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e\u003e add3(10)\n\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eComo se esperaba, el resultado es:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e13\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003ePuedes utilizar REPL para probar fragmentos de código JavaScript antes de incluirlos en tus programas. REPL también incluye algunos atajos útiles para facilitar ese proceso.\u003c/p\u003e\n\u003ch2\u003ePaso 3 - Dominar los atajos de REPL\u003c/h2\u003e\n\u003cp\u003eREPL proporciona atajos para reducir el tiempo de codificación cuando sea posible. Mantiene un historial de todos los comandos ingresados ​​y nos permite recorrerlos y repetir un comando si es necesario.\u003c/p\u003e\n\u003cp\u003ePor ejemplo, ingresa la siguiente cadena:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e\"The answer to life the universe and everything is 32\"\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eEsto resulta en:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e'The answer to life the universe and everything is 32'\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eSi queremos editar la cadena y cambiar el \u003ccode\u003e\"32\"\u003c/code\u003e a \u003ccode\u003e\"42\"\u003c/code\u003e, en el indicador, usa la tecla de flecha \u003cem\u003eARRIBA\u003c/em\u003e para volver al comando anterior:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e\u003e \"The answer to life the universe and everything is 32\"\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eMueve el cursor hacia la izquierda, elimina el \u003ccode\u003e3\u003c/code\u003e, ingresa un \u003ccode\u003e4\u003c/code\u003e y presione \u003cem\u003eENTER\u003c/em\u003e nuevamente:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e'The answer to life the universe and everything is 42'\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eContinúa presionando la tecla de flecha \u003cem\u003eARRIBA\u003c/em\u003e y retrocederás más a través de tu historial hasta el primer comando utilizado en la sesión REPL actual. Por el contrario, presionar \u003cem\u003eABAJO\u003c/em\u003e iterarás hacia los comandos más recientes en el historial.\u003c/p\u003e\n\u003cp\u003eCuando hayas terminado de maniobrar a través de tu historial de comandos, presiona \u003cem\u003eABAJO\u003c/em\u003e repetidamente hasta que hayas agotado tu historial de comandos recientes.\u003c/p\u003e\n\u003cp\u003ePara obtener rápidamente el último valor evaluado, utiliza el carácter de subrayado. Escribe \u003ccode\u003e_\u003c/code\u003e y presiona \u003cem\u003eENTER\u003c/em\u003e:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e\u003e _\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eLa cadena de texto ingresada anteriormente aparecerá nuevamente:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e'The answer to life the universe and everything is 42'\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eREPL también tiene un autocompletado para funciones, variables y palabras clave. Si deseas encontrar la raíz cuadrada de un número usando la función \u003ccode\u003eMath.sqrt\u003c/code\u003e, ingresa las primeras letras, así:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e\u003e Math.sq\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eLuego presione la tecla \u003cem\u003eTAB\u003c/em\u003e y REPL completará automáticamente la función:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e\u003e Math.sqrt\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eCuando hay varias posibilidades para autocompletar, se te mostrarán todas las opciones disponibles. Por ejemplo, ingresa solo:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e\u003e Math.\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eY presione \u003cem\u003eTAB\u003c/em\u003e dos veces. Verás todos los posibles autocompletados:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e\u003e Math.\nMath.__defineGetter__      Math.__defineSetter__      Math.__lookupGetter__\nMath.__lookupSetter__      Math.__proto__             Math.constructor\nMath.hasOwnProperty        Math.isPrototypeOf         Math.propertyIsEnumerable\nMath.toLocaleString        Math.toString              Math.valueOf\n\nMath.E                     Math.LN10                  Math.LN2\nMath.LOG10E                Math.LOG2E                 Math.PI\nMath.SQRT1_2               Math.SQRT2                 Math.abs\nMath.acos                  Math.acosh                 Math.asin\nMath.asinh                 Math.atan                  Math.atan2\nMath.atanh                 Math.cbrt                  Math.ceil\nMath.clz32                 Math.cos                   Math.cosh\nMath.exp                   Math.expm1                 Math.floor\nMath.fround                Math.hypot                 Math.imul\nMath.log                   Math.log10                 Math.log1p\nMath.log2                  Math.max                   Math.min\nMath.pow                   Math.random                Math.round\nMath.sign                  Math.sin                   Math.sinh\nMath.sqrt                  Math.tan                   Math.tanh\nMath.trunc\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003ePresione \u003cem\u003eCTRL + C\u003c/em\u003e para ir a una nueva línea en el indicador REPL sin ejecutar lo que está en la línea actual.\u003c/p\u003e\n\u003cp\u003eConocer los atajos de REPL te hará más eficiente al utilizarlo. Sin embargo, hay otra cosa que REPL proporciona para aumentar la productividad: los comandos REPL.\u003c/p\u003e\n\u003ch2\u003ePaso 4 - Uso de comandos REPL\u003c/h2\u003e\n\u003cp\u003eREPL tiene palabras clave específicas para ayudar a controlar su comportamiento. Cada comando comienza con un punto.\u003c/p\u003e\n\u003ch3\u003e.help\u003c/h3\u003e\n\u003cp\u003ePara enumerar todos los comandos disponibles, utiliza el comando \u003ccode\u003e.help\u003c/code\u003e:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e\u003e .help\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eNo hay muchos, pero son útiles para hacer cosas en REPL:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e.break    Sometimes you get stuck, this gets you out\n.clear    Alias for .break\n.editor   Enter editor mode\n.exit     Exit the REPL\n.help     Print this help message\n.load     Load JS from a file into the REPL session\n.save     Save all evaluated commands in this REPL session to a file\n\nPress Ctrl+C to abort current expression, Ctrl+D to exit the REPL\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eSi alguna vez olvidas un comando, siempre puedes consultar \u003ccode\u003e.help\u003c/code\u003e para listarlos y ver qué hace cada uno.\u003c/p\u003e\n\u003ch3\u003e.break/.clear\u003c/h3\u003e\n\u003cp\u003eCon \u003ccode\u003e.break\u003c/code\u003e o \u003ccode\u003e.clear\u003c/code\u003e, es fácil salir de una expresión de varias líneas. Por ejemplo, comienza un ciclo \u003ccode\u003efor\u003c/code\u003e de la siguiente manera:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e\u003e for (let i = 0; i \u0026#x3C; 100000000; i++) {\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003ePara salir directamente, en lugar de ingresar la siguiente línea, usa el comando \u003ccode\u003e.break\u003c/code\u003e o \u003ccode\u003e.clear\u003c/code\u003e:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e... .break\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eVerás un nuevo símbolo de mensaje de REPL:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e\u003e\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eREPL pasará a una nueva línea sin ejecutar ningún código, similar a presionar \u003cem\u003eCTRL + C\u003c/em\u003e.\u003c/p\u003e\n\u003ch3\u003e.save and .load\u003c/h3\u003e\n\u003cp\u003eEl comando \u003ccode\u003e.save\u003c/code\u003e almacena en un archivo todo el código que ejecutaste desde el inició de la sesión actual de REPL. El comando \u003ccode\u003e.load\u003c/code\u003e ejecuta todo el código JavaScript desde un archivo dentro de REPL.\u003c/p\u003e\n\u003cp\u003eSal de la sesión usando el comando \u003ccode\u003e.exit\u003c/code\u003e o con el atajo \u003cem\u003eCTRL + D\u003c/em\u003e. A continuación inicia un nuevo REPL con \u003ccode\u003enode\u003c/code\u003e. Ahora solo se guardará el código que estás a punto de escribir.\u003c/p\u003e\n\u003cp\u003eCrea un array con frutas:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e\u003e fruits = ['banana', 'apple', 'mango']\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eEn la siguiente línea, REPL mostrará:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e[ 'banana', 'apple', 'mango' ]\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eGuarda esta variable en un nuevo archivo, \u003ccode\u003efruit.js\u003c/code\u003e:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e\u003e .save fruits.js\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eVerás un mensaje de confirmación:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003eSession saved to: fruits.js\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eEl archivo se guarda en el mismo directorio donde se abrió REPL.\u003c/p\u003e\n\u003cp\u003eSal de la sesión e inicia un nuevo REPL con \u003ccode\u003enode\u003c/code\u003e. Cuando se te solicite, carga el archivo \u003ccode\u003efruit.js\u003c/code\u003e ingresando:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e\u003e .load fruits.js\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eEsto resulta en:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003efruits = ['banana', 'apple', 'mango']\n[ 'banana', 'apple', 'mango' ]\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eEl comando \u003ccode\u003e.load\u003c/code\u003e lee cada línea de código y lo ejecuta, como se esperaba de un intérprete de JavaScript. Ahora puedes usar la variable \u003ccode\u003efruits\u003c/code\u003e como si hubiera estado disponible en la sesión actual todo el tiempo.\u003c/p\u003e\n\u003cp\u003eEscribe el siguiente comando y presione \u003cem\u003eENTRAR\u003c/em\u003e:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e\u003e fruits[1]\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eREPL dará como resultado:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e'apple'\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003ePuedes cargar cualquier archivo JavaScript con el comando \u003ccode\u003e.load\u003c/code\u003e, no solo los elementos que guardaste previamente desde REPL.\u003c/p\u003e\n\u003cp\u003eHagamos una demostración rápida abriendo tu editor de código preferido o nano, un editor de línea de comandos, y creemos un nuevo archivo llamado \u003ccode\u003epeanuts.js\u003c/code\u003e:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003enano peanuts.js\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eAhora que el archivo está abierto, escribe lo siguiente:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003econsole.log('I love peanuts!');\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eGuarda y sal de nano presionando \u003cem\u003eCTRL + X\u003c/em\u003e.\u003c/p\u003e\n\u003cp\u003eEn el mismo directorio donde guardaste \u003ccode\u003epeanuts.js\u003c/code\u003e, inicia una sesión de REPL con el comando \u003ccode\u003enode\u003c/code\u003e. Carga \u003ccode\u003epeanuts.js\u003c/code\u003e en su sesión:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003e\u003e .load peanuts.js\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eEl comando \u003ccode\u003e.load\u003c/code\u003e ejecutará la declaración \u003ccode\u003econsole.log\u003c/code\u003e y mostrará el siguiente resultado:\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003econsole.log('I love peanuts!');\n\nI love peanuts!\nundefined\n\u003e\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eCuando el uso de REPL es más extenso de lo esperado, o si crees que tienes un fragmento de código interesante que vale la pena compartir o explorar con más profundidad, puedes usar los comandos \u003ccode\u003e.save\u003c/code\u003e y \u003ccode\u003e.load\u003c/code\u003e para hacer posibles ambos objetivos.\u003c/p\u003e\n\u003ch2\u003eConclusión\u003c/h2\u003e\n\u003cp\u003eREPL es un entorno interactivo que te permite ejecutar código JavaScript sin tener que escribirlo primero en un archivo.\u003c/p\u003e\n","ogImage":{"url":"/assets/nodejs/como-usar-REPL.png"},"coverImage":"/assets/nodejs/como-usar-REPL.png"}},"__N_SSG":true},"page":"/[...slug]","query":{"slug":["nodejs","como-usar-repl-de-nodejs"]},"buildId":"qoRXfxbnXzrcT-xzb1EWP","isFallback":false,"gsp":true,"scriptLoader":[]}</script><script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-215112498-1"></script><script>
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'UA-215112498-1');
+              </script></body></html>
