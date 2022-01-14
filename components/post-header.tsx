@@ -13,7 +13,7 @@ type Props = {
 
 const PostHeader = ({ title, coverImage, date, author }: Props) => {
   return (
-    <>
+    <div className="max-w-5xl mx-auto ">
       <PostTitle>{title}</PostTitle>
       <div className="hidden md:block md:mb-12">
         <Avatar name={author.name} picture={author.picture} />
@@ -29,7 +29,7 @@ const PostHeader = ({ title, coverImage, date, author }: Props) => {
           <DateFormatter dateString={date} />
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
