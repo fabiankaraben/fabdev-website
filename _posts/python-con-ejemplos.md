@@ -13,3 +13,5 @@ ogImage:
 En esta serie vamos a ver ejemplos de las prácticas más comunmente utilizadas al programar con Python.
 
 [1- ¿Cómo concatenar strings en Python?](/python-con-ejemplos/como-concatenar-strings)
+
+[2- ¿Cómo comparar strings en Python?](/python-con-ejemplos/como-comparar-strings)
