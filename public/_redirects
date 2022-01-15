@@ -17,3 +17,5 @@
 /apuntes-git   /apuntes/git   301
 /apuntes   /apuntes/git   301
 /archive   /   301
+/dart   /dart/tour-por-el-lenguaje   301
+/blog/* /noblog/:splat
